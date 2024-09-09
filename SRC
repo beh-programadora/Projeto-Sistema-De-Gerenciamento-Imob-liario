@@ -1,0 +1,135 @@
+-- Criação do banco de dados
+CREATE DATABASE ImobiliariaDB;
+USE ImobiliariaDB;
+
+-- Criação da tabela Propriedades
+CREATE TABLE Propriedades (
+    id_propriedade INT AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(255) NOT NULL,
+    tipo ENUM('Casa', 'Apartamento', 'Terreno') NOT NULL,
+    valor DECIMAL(15, 2) NOT NULL,
+    status ENUM('Disponível', 'Vendido', 'Alugado') NOT NULL
+);
+
+-- Criação da tabela Clientes
+CREATE TABLE Clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100),
+    tipo_interesse ENUM('Compra', 'Aluguel') NOT NULL
+);
+
+-- Criação da tabela Agentes
+CREATE TABLE Agentes (
+    id_agente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) NOT NULL
+);
+
+-- Criação da tabela Transações
+CREATE TABLE Transacoes (
+    id_transacao INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT,
+    id_propriedade INT,
+    id_agente INT,
+    data_transacao DATE NOT NULL,
+    tipo_transacao ENUM('Compra', 'Aluguel') NOT NULL,
+    valor DECIMAL(15, 2) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+    FOREIGN KEY (id_propriedade) REFERENCES Propriedades(id_propriedade),
+    FOREIGN KEY (id_agente) REFERENCES Agentes(id_agente)
+);
+
+-- Inserção de dados na tabela Propriedades
+INSERT INTO Propriedades (endereco, tipo, valor, status) VALUES
+('Rua das Flores, 123', 'Casa', 300000.00, 'Disponível'),
+('Avenida Central, 456', 'Apartamento', 150000.00, 'Vendido'),
+('Rua da Paz, 789', 'Terreno', 100000.00, 'Alugado'),
+('Praça do Sol, 321', 'Casa', 250000.00, 'Disponível');
+
+-- Inserção de dados na tabela Clientes
+INSERT INTO Clientes (nome, telefone, email, tipo_interesse) VALUES
+('Pedro Silva', '1234-5678', 'pedro.silva@example.com', 'Compra'),
+('Ana Pereira', '8765-4321', 'ana.pereira@example.com', 'Aluguel'),
+('João Oliveira', '1357-2468', 'joao.oliveira@example.com', 'Compra'),
+('Maria Santos', '2468-1357', 'maria.santos@example.com', 'Aluguel');
+
+-- Inserção de dados na tabela Agentes
+INSERT INTO Agentes (nome, telefone, email) VALUES
+('Carlos Souza', '9876-5432', 'carlos.souza@example.com'),
+('Juliana Costa', '5432-9876', 'juliana.costa@example.com'),
+('Roberto Lima', '6789-1234', 'roberto.lima@example.com');
+
+-- Inserção de dados na tabela Transações
+INSERT INTO Transacoes (id_cliente, id_propriedade, id_agente, data_transacao, tipo_transacao, valor) VALUES
+(1, 1, 1, '2024-09-01', 'Compra', 300000.00),
+(2, 3, 2, '2024-09-02', 'Aluguel', 100000.00),
+(3, 4, 3, '2024-09-03', 'Compra', 250000.00);
+
+SELECT 
+    p.id_propriedade AS ID_Propriedade,
+    p.endereco AS Endereco,
+    p.tipo AS Tipo,
+    p.valor AS Valor,
+    p.status AS Status
+FROM 
+    Propriedades p
+WHERE 
+    p.status = 'Disponível';
+
+SELECT 
+    t.id_transacao AS ID_Transacao,
+    c.nome AS Nome_Cliente,
+    p.endereco AS Endereco_Propriedade,
+    a.nome AS Nome_Agente,
+    t.data_transacao AS Data_Transacao,
+    t.valor AS Valor
+FROM 
+    Transacoes t
+JOIN 
+    Clientes c ON t.id_cliente = c.id_cliente
+JOIN 
+    Propriedades p ON t.id_propriedade = p.id_propriedade
+JOIN 
+    Agentes a ON t.id_agente = a.id_agente
+WHERE 
+    t.tipo_transacao = 'Compra';
+
+SELECT 
+    t.id_transacao AS ID_Transacao,
+    c.nome AS Nome_Cliente,
+    p.endereco AS Endereco_Propriedade,
+    a.nome AS Nome_Agente,
+    t.data_transacao AS Data_Transacao,
+    t.tipo_transacao AS Tipo_Transacao,
+    t.valor AS Valor
+FROM 
+    Transacoes t
+JOIN 
+    Clientes c ON t.id_cliente = c.id_cliente
+JOIN 
+    Propriedades p ON t.id_propriedade = p.id_propriedade
+JOIN 
+    Agentes a ON t.id_agente = a.id_agente
+WHERE 
+    t.id_transacao = 1;  -- Substitua 1 pelo ID da transação desejada
+
+UPDATE Propriedades
+SET status = 'Vendido'
+WHERE id_propriedade = 5;
+
+UPDATE Clientes
+SET telefone = '9999-8888'
+WHERE id_cliente = 3;
+
+SELECT * 
+FROM Transacoes
+WHERE id_cliente = 3;
+
+DELETE FROM Transacoes
+WHERE id_cliente = 3;
+
+DELETE FROM Clientes
+WHERE id_cliente = 3;
