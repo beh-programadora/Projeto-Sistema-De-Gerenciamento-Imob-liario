@@ -1,0 +1,43 @@
+
+### .gitignore
+
+```gitignore
+# Ignore SQL dump files
+*.sql
+
+# Ignore MySQL data directory
+/var/lib/mysql
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+nunciado do Projeto
+Objetivo:
+
+O projeto consiste na criação e gerenciamento de um banco de dados para uma imobiliária. O sistema deve ser capaz de armazenar e gerenciar informações sobre propriedades, clientes, agentes e transações. O banco de dados deve suportar consultas para obter informações específicas, como propriedades disponíveis, transações de compra e detalhes de transações específicas.
+
+Requisitos:
+
+Propriedades: Informações sobre propriedades imobiliárias, incluindo endereço, tipo (casa, apartamento, terreno), valor e status (disponível, vendido, alugado).
+
+Clientes: Dados sobre clientes, incluindo nome, telefone, e-mail e tipo de interesse (compra, aluguel).
+
+Agentes: Informações sobre agentes imobiliários, como nome, telefone e e-mail.
+
+Transações: Registro de transações de compra e aluguel, armazenando dados sobre o cliente, agente, propriedade, data e tipo de transação.
+
+Consultas Exemplo:
+
+Listar todas as propriedades disponíveis.
+Listar todas as transações de compras.
+Consultar detalhes completos de uma transação, incluindo o nome do cliente, nome do agente e endereço da propriedade.
+Atualizações e Exclusões:
+
+Alterar o status de uma propriedade após uma transação de compra.
+Atualizar informações de contato de clientes.
+Excluir registros de clientes que não estão mais interessados em comprar ou alugar.
